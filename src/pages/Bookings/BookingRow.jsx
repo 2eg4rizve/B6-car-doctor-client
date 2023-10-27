@@ -2,11 +2,11 @@
 /* eslint-disable react/prop-types */
 
 
-const BookingRow = ({ booking ,handleDelete }) => {
+const BookingRow = ({ booking, handleDelete, handleBookingConfirm }) => {
 
-    const { _id,img, customerName, email, date, service_title, price } = booking;
+    const { _id, img, customerName, email, date, service_title, price, status } = booking;
 
-   
+
 
     return (
 
@@ -35,7 +35,11 @@ const BookingRow = ({ booking ,handleDelete }) => {
             <td>{date}</td>
             <td>$ {price}</td>
             <th>
-                <button className="btn btn-ghost btn-xs">details</button>
+                {
+                    status === 'confirm' ?
+                        <span className="font-bold text-primary">Confirmed</span> :
+                        <button onClick={() => handleBookingConfirm(_id)} className="btn btn-ghost btn-xs">Please Confirm</button>
+                }
             </th>
         </tr>
 
