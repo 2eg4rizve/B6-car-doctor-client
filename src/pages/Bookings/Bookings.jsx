@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { useState } from "react";
 import BookingRow from "./BookingRow";
+import axios from "axios";
 
 
 const Bookings = () => {
@@ -9,12 +10,25 @@ const Bookings = () => {
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
 
-    const url = `http://localhost:5000/bookings?email=${user?.email}`
+     const url = `http://localhost:5000/bookings?email=${user?.email}`
+
 
     useEffect(() => {
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setBookings(data))
+
+
+        axios.get(url,{withCredentials: true})
+        .then(res=>{
+            setBookings(res.data)
+        })
+
+
+
+
+        // fetch(url)
+        //     .then(res => res.json())
+        //     .then(data => setBookings(data))
+
+
 
 
     }, [url])
@@ -70,7 +84,10 @@ const Bookings = () => {
         <div>
             <h2> Your Email : {user?.email} </h2>
 
-            <h2> Your Total Booking : {bookings.length} </h2>
+            {
+                bookings?.length>0 ? <h2> Your Total Booking : {bookings?.length} </h2>:
+                <h2> Your Total Booking : 0 </h2>
+            }
 
             <div className="overflow-x-auto">
                 <table className="table">
@@ -78,9 +95,7 @@ const Bookings = () => {
                     <thead>
                         <tr>
                             <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
+                                DELETE
                             </th>
                             <th>image</th>
                             <th>email</th>
@@ -92,7 +107,7 @@ const Bookings = () => {
                     </thead>
                     <tbody>
                         {
-                            bookings.map(booking => <BookingRow
+                            bookings?.map(booking => <BookingRow
 
                                 key={booking._id}
                                 booking={booking}

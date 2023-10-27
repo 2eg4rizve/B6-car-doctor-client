@@ -9,7 +9,7 @@ import axios from 'axios';
 const Login = () => {
     const { signIn } = useContext(AuthContext);
     const location = useLocation();
-    const navigate =useNavigate();
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -22,18 +22,21 @@ const Login = () => {
             .then(res => {
                 const loggedInUser = res.user;
                 console.log(loggedInUser);
-                const user = {email}
+                const user = { email }
 
                 // navigate(location?.state? location?.state : '/'  )
-                
+
 
                 //get access token
-                axios.post('http://localhost:5000/jwt',user)
-                .then(res=>{
-                    console.log(res.data) 
-                })
+                axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
+                    .then(res => {
+                        console.log(res.data);
+                        if(res.data.success){
+                            navigate(location?.state? location?.state : '/'  )
+                        }
+                    })
 
-                
+
 
             })
             .catch(err => console.log(err))

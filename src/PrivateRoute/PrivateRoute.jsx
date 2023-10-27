@@ -11,7 +11,8 @@ const PrivateRoute = ({children}) => {
     //console.log(location.pathname);
 
     if(loading){
-        return <progress className="progress w-56"></progress>
+        return "loading.......";
+        // return <progress className="progress w-56"></progress>
     }
 
     if(user?.email){
