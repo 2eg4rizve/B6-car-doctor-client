@@ -58,6 +58,7 @@ const NavBar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
+                    <button className="">{user?.email}</button>
                     <button className="btn btn-outline btn-warning">Appointment</button>
                 </div>
             </div>

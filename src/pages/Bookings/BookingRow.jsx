@@ -4,7 +4,7 @@
 
 const BookingRow = ({ booking, handleDelete, handleBookingConfirm }) => {
 
-    const { _id, img, customerName, email, date, service_title, price, status } = booking;
+    const { _id, img, customerName, email, date, service_title, price, status } = booking||{};
 
 
 

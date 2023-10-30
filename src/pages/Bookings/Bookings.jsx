@@ -3,35 +3,36 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { useState } from "react";
 import BookingRow from "./BookingRow";
 import axios from "axios";
+import useAxiosSecure from "../../hook/useAxiosSecure";
 
 
 const Bookings = () => {
 
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
+    const axiosSecure = useAxiosSecure();
 
-     const url = `http://localhost:5000/bookings?email=${user?.email}`
+    const url = `/bookings?email=${user?.email}`
+
+    // const url = `http://localhost:5000/bookings?email=${user?.email}`
 
 
     useEffect(() => {
 
+        axiosSecure.get(url)
+            .then(res => {
+                setBookings(res.data)
+            })
 
-        axios.get(url,{withCredentials: true})
-        .then(res=>{
-            setBookings(res.data)
-        })
+        // axios.get(url,{withCredentials: true})
+        // .then(res=>{
+        //     setBookings(res.data)
+        // })
 
-
-
-
-        // fetch(url)
+        // fetch(url,{credentials: 'include'})
         //     .then(res => res.json())
         //     .then(data => setBookings(data))
-
-
-
-
-    }, [url])
+    }, [axiosSecure, url])
 
 
     const handleDelete = id => {
@@ -70,9 +71,9 @@ const Bookings = () => {
                     //update stat
                     const remaining = bookings.filter(booking => booking._id !== id);
                     const updated = bookings.find(booking => booking._id !== id);
-                    updated.status='Confirm';
+                    updated.status = 'Confirm';
 
-                    const newBooking = [updated,...remaining];
+                    const newBooking = [updated, ...remaining];
 
                     setBookings(newBooking);
 
@@ -84,10 +85,9 @@ const Bookings = () => {
         <div>
             <h2> Your Email : {user?.email} </h2>
 
-            {
-                bookings?.length>0 ? <h2> Your Total Booking : {bookings?.length} </h2>:
-                <h2> Your Total Booking : 0 </h2>
-            }
+            <h2> Your Total Booking : {bookings?.length} </h2>:
+
+
 
             <div className="overflow-x-auto">
                 <table className="table">
