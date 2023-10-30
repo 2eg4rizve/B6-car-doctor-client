@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { useState } from "react";
 import BookingRow from "./BookingRow";
-import axios from "axios";
+// import axios from "axios";
 import useAxiosSecure from "../../hook/useAxiosSecure";
 
 
@@ -19,10 +19,12 @@ const Bookings = () => {
 
     useEffect(() => {
 
+
+
         axiosSecure.get(url)
-            .then(res => {
-                setBookings(res.data)
-            })
+        .then(res => {
+            setBookings(res.data)
+        })
 
         // axios.get(url,{withCredentials: true})
         // .then(res=>{
