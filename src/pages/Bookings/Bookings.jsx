@@ -11,6 +11,7 @@ const Bookings = () => {
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
     const axiosSecure = useAxiosSecure();
+    const [isLoading,setIsLoading]= useState(true);
 
     const url = `/bookings?email=${user?.email}`
 
@@ -19,11 +20,10 @@ const Bookings = () => {
 
     useEffect(() => {
 
-
-
         axiosSecure.get(url)
         .then(res => {
             setBookings(res.data)
+            setIsLoading(false);
         })
 
         // axios.get(url,{withCredentials: true})
@@ -81,6 +81,10 @@ const Bookings = () => {
 
                 }
             })
+    }
+
+    if(isLoading){
+        return <span className="loading loading-spinner loading-lg"></span>
     }
 
     return (
